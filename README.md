@@ -1,2 +1,19 @@
-# HTML-CSS-side-projects
-Simple html/css projects i made when i am bored with various different UI hope you like them
+# HTML/CSS Side Projects
+
+This repository contains a collection of HTML and CSS side projects that I've created in my free time. Each file represents a different project and is named accordingly.
+
+## Project Description
+
+These projects were primarily created for fun and to practice my HTML and CSS skills. They range in complexity and purpose, showcasing various web development concepts and techniques.
+
+## Contents
+
+The repository includes the following projects:
+
+* `Budget Tracker`: simple finance budget tracker with different various features.
+* `gaming_table_layouts.html`: A project focused on creating different table layouts for gaming-related content.
+* `gaming_hub.html`: A project simulating a gaming hub website.
+
+## Disclaimer
+
+These projects are side projects and may not be fully polished or optimized. They are intended for demonstration and learning purposes.
