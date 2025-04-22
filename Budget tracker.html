@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Budget Finance Tracker</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@tailwindcss/browser@latest"></script>
+    <style>
+      /* Custom CSS for the message box */
+      #message-box {
+        display: none;
+        position: fixed;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: #1e293b;
+        color: #f0fdf4;
+        padding: 16px;
+        border-radius: 6px;
+        border: 1px solid #6ee7b7;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        z-index: 10;
+        opacity: 0;
+        transition: opacity 0.3s ease-in-out;
+      }
+      #message-box.show {
+        display: block;
+        opacity: 1;
+      }
+      .transaction-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #2d3748;
+        padding: 16px;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        margin-bottom: 12px;
+        transition: transform 0.2s ease-in-out, background-color 0.2s ease-in-out;
+      }
+      .transaction-item:hover {
+        transform: translateY(-2px) scale(1.02);
+        background-color: #4a5568;
+      }
+      .transaction-item .category {
+        font-semibold text-gray-100;
+      }
+      .transaction-item .type {
+        color: #cbd5e0;
+        font-size: 0.875rem;
+      }
+      .transaction-item .description {
+        color: #9ca3af;
+        font-size: 0.9rem;
+        margin-left: 8px;
+      }
+      .transaction-item .amount {
+        font-weight: bold;
+        font-size: 1.125rem;
+      }
+      .income {
+        color: #6ee7b7;
+      }
+      .expense {
+        color: #f87171;
+      }
+      .delete-btn {
+        background-color: #e53e3e;
+        color: #fff;
+        font-weight: bold;
+        padding: 8px 12px;
+        border-radius: 6px;
+        focus:outline-none;
+        focus:ring-2 focus:ring-red-500;
+        transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out;
+      }
+      .delete-btn:hover {
+        background-color: #c53030;
+        transform: scale(1.1);
+      }
+      .summary-container {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        margin-bottom: 24px;
+      }
+      .summary-container .summary-box {
+        padding: 16px;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        transition: transform 0.2s ease-in-out, background-color 0.2s ease-in-out;
+      }
+      .summary-container .summary-box:hover {
+        transform: translateY(-4px);
+        background-color: #374151;
+      }
+      .income-summary {
+        background-color: #1e3a8a;
+      }
+      .expense-summary {
+        background-color: #9f1239;
+      }
+      .balance-summary {
+        background-color: #78350f;
+      }
+      .summary-container h2 {
+        font-size: 1rem;
+        font-weight: 600;
+        margin-bottom: 8px;
+        color: #fff;
+      }
+      .summary-container p {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: #f5f5f5;
+      }
+      #transaction-form {
+        background-color: #2d3748;
+        padding: 20px;
+        border-radius: 8px;
+        margin-bottom: 24px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+      }
+      #transaction-form label {
+        display: block;
+        margin-bottom: 8px;
+        color: #e2e8f0;
+        font-weight: 600;
+        font-size: 0.9rem;
+      }
+      #transaction-form input,
+      #transaction-form select {
+        width: 100%;
+        padding: 12px;
+        border-radius: 6px;
+        border: 1px solid #4a5568;
+        margin-bottom: 16px;
+        font-size: 1rem;
+        background-color: #1a202c;
+        color: #f7fafc;
+        focus:outline-none;
+        focus:ring-2 focus:ring-blue-500;
+        transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+      }
+      #transaction-form input:focus,
+      #transaction-form select:focus {
+        border-color: #63b3ed;
+        box-shadow: 0 0 0 3px rgba(99, 179, 237, 0.3);
+      }
+      #transaction-form button {
+        background-image: linear-gradient(to right, #48bb78, #3182ce);
+        color: #fff;
+        font-weight: bold;
+        padding: 12px 24px;
+        border-radius: 6px;
+        border: none;
+        cursor: pointer;
+        font-size: 1.1rem;
+        transition: background-image 0.3s ease-in-out, transform 0.1s ease-in-out, box-shadow 0.2s ease-in-out;
+      }
+      #transaction-form button:hover {
+        background-image: linear-gradient(to right, #38a169, #2b6cb0);
+        transform: translateY(-2px) scale(1.05);
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+      }
+      #transaction-form button:active {
+        transform: translateY(0) scale(1);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      }
+      .transactions-container {
+        background-color: #2d3748;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+      }
+      .transactions-container h2 {
+        color: #f5f5f5;
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 24px;
+        text-align: center;
+        border-bottom: 1px solid #4a5568;
+        padding-bottom: 12px;
+      }
+      #transaction-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+      /* Styles for the analysis features */
+      .analysis-container {
+        display: flex;
+        justify-content: space-around;
+        margin-top: 24px;
+        padding: 16px;
+        border-radius: 8px;
+        background-color: #2d3748;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
+      .analysis-container .analysis-box {
+        text-align: center;
+        color: #fff;
+      }
+      .analysis-container .analysis-box h3 {
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin-bottom: 8px;
+      }
+      .analysis-container .analysis-box p {
+        font-size: 1.25rem;
+        font-weight: 700;
+      }
+      /* Styles for filters */
+      .filter-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        margin-bottom: 24px;
+        color: #fff;
+      }
+      .filter-container div {
+        margin-right: 10px;
+        margin-bottom: 10px;
+      }
+      .filter-container label {
+        margin-right: 5px;
+        font-size: 0.9rem;
+      }
+      .filter-container select,
+      .filter-container input {
+        padding: 8px;
+        border-radius: 6px;
+        border: 1px solid #4a5568;
+        background-color: #1a202c;
+        color: #f7fafc;
+        font-size: 0.9rem;
+        focus:outline-none;
+        focus:ring-2 focus:ring-blue-500;
+      }
+      .filter-container button {
+        background-color: #63b3ed;
+        color: #fff;
+        padding: 8px 16px;
+        border-radius: 6px;
+        border: none;
+        cursor: pointer;
+        font-size: 0.9rem;
+        transition: background-color 0.2s ease-in-out;
+      }
+      .filter-container button:hover {
+        background-color: #3182ce;
+      }
+      /* Styles for export button */
+      #export-btn {
+        background-color: #10b981;
+        color: #fff;
+        padding: 10px 16px;
+        border-radius: 6px;
+        font-size: 0.9rem;
+        cursor: pointer;
+        transition: background-color 0.2s ease-in-out;
+        margin-top: 20px;
+        border: none;
+        align-self: center;
+      }
+      #export-btn:hover {
+        background-color: #059669;
+      }
+      /* Styles for summary */
+      .summary-container {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        margin-bottom: 24px;
+        flex-wrap: wrap;
+      }
+      .summary-container .summary-box {
+        padding: 16px;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        transition: transform 0.2s ease-in-out, background-color 0.2s ease-in-out;
+        margin: 10px;
+        min-width: 150px;
+      }
+      .summary-container .summary-box:hover {
+        transform: translateY(-4px);
+        background-color: #374151;
+      }
+      .income-summary {
+        background-color: #1e3a8a;
+      }
+      .expense-summary {
+        background-color: #9f1239;
+      }
+      .balance-summary {
+        background-color: #78350f;
+      }
+      .summary-container h2 {
+        font-size: 1rem;
+        font-weight: 600;
+        margin-bottom: 8px;
+        color: #fff;
+      }
+      .summary-container p {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: #f5f5f5;
+      }
+    </style>
+  </head>
+  <body class="bg-gray-900 min-h-screen flex justify-center items-center font-inter">
+    <div class="container bg-gray-800 rounded-lg shadow-md p-6 w-4/5 max-w-2xl">
+      <h1 class="text-3xl font-semibold text-center text-white mb-6 bg-gradient-to-r from-indigo-400 to-blue-400 bg-clip-text text-transparent">
+        My Budget Tracker
+      </h1>
+      <div id="message-box" class="hidden"></div>
+      <div class="summary-container">
+        <div class="income-summary summary-box">
+          <h2 class="text-md">Income:</h2>
+          <p id="income">₹0</p>
+        </div>
+        <div class="expense-summary summary-box">
+          <h2 class="text-md">Expenses:</h2>
+          <p id="expense">₹0</p>
+        </div>
+        <div class="balance-summary summary-box">
+          <h2 class="text-md">Balance:</h2>
+          <p id="balance">₹0</p>
+        </div>
+      </div>
+      <div class="filter-container">
+        <div>
+          <label for="filter-type">Filter by Type:</label>
+          <select id="filter-type">
+            <option value="">All</option>
+            <option value="income">Income</option>
+            <option value="expense">Expense</option>
+          </select>
+        </div>
+        <div>
+          <label for="filter-category">Filter by Category:</label>
+          <input type="text" id="filter-category" placeholder="Category" />
+        </div>
+        <div>
+          <label for="sort-by">Sort by:</label>
+          <select id="sort-by">
+            <option value="">None</option>
+            <option value="amount">Amount</option>
+            <option value="date">Date</option>
+          </select>
+        </div>
+        <button id="clear-filter">Clear Filters</button>
+      </div>
+
+      <div class="form-container">
+        <h2 class="text-2xl font-semibold text-gray-200 mb-4">Add Transaction</h2>
+        <form id="transaction-form" class="flex flex-col space-y-4">
+          <div>
+            <label for="type">Type:</label>
+            <select id="type">
+              <option value="income">Income</option>
+              <option value="expense">Expense</option>
+            </select>
+          </div>
+          <div>
+            <label for="category">Category:</label>
+            <input type="text" id="category" placeholder="Enter category" required />
+          </div>
+          <div>
+            <label for="description">Description:</label>
+            <input type="text" id="description" placeholder="Enter description" />
+          </div>
+          <div>
+            <label for="amount">Amount:</label>
+            <input type="number" id="amount" min="0" placeholder="Enter amount" required />
+          </div>
+          <button type="submit">Add Transaction</button>
+        </form>
+      </div>
+
+      <div class="transactions-container">
+        <h2 class="text-2xl font-semibold mb-6">Transactions</h2>
+        <ul id="transaction-list">
+          </ul>
+      </div>
+      <div class="analysis-container">
+        <div class="analysis-box">
+          <h3>Highest Income:</h3>
+          <p id="highest-income">₹0</p>
+        </div>
+        <div class="analysis-box">
+          <h3>Highest Expense:</h3>
+          <p id="highest-expense">₹0</p>
+        </div>
+      </div>
+      <button id="export-btn">Export to Excel</button>
+    </div>
+
+    <script>
+      const transactionForm = document.getElementById("transaction-form");
+      const transactionList = document.getElementById("transaction-list");
+      const incomeDisplay = document.getElementById("income");
+      const expenseDisplay = document.getElementById("expense");
+      const balanceDisplay = document.getElementById("balance");
+      const messageBox = document.getElementById("message-box");
+      const highestIncomeDisplay = document.getElementById("highest-income");
+      const highestExpenseDisplay = document.getElementById("highest-expense");
+      const filterTypeSelect = document.getElementById("filter-type");
+      const filterCategoryInput = document.getElementById("filter-category");
+      const sortBySelect = document.getElementById("sort-by");
+      const clearFilterButton = document.getElementById("clear-filter");
+      const exportBtn = document.getElementById("export-btn");
+
+      let transactions = [];
+
+      function showMessage(message, type = 'success') {
+        messageBox.textContent = message;
+        messageBox.className = `fixed top-4 left-1/2 transform -translate-x-1/2 bg-${type === 'success' ? 'green' : 'red'}-100 text-${type === 'success' ? 'green' : 'red'}-700 border border-${type === 'success' ? 'green' : 'red'}-400 px-4 py-2 rounded shadow-md opacity-0 transition-opacity 0.3s ease-in-out`;
+        messageBox.classList.add('show');
+        setTimeout(() => {
+          messageBox.classList.remove('show');
+        }, 3000);
+      }
+
+      function calculateSummary() {
+        let totalIncome = 0;
+        let totalExpense = 0;
+        let highestIncome = 0;
+        let highestExpense = 0;
+
+        transactions.forEach((transaction) => {
+          if (transaction.type === "income") {
+            totalIncome += transaction.amount;
+            if (transaction.amount > highestIncome) {
+              highestIncome = transaction.amount;
+            }
+          } else {
+            totalExpense += transaction.amount;
+            if (transaction.amount > highestExpense) {
+              highestExpense = transaction.amount;
+            }
+          }
+        });
+
+        const balance = totalIncome - totalExpense;
+
+        incomeDisplay.textContent = `₹${totalIncome.toFixed(2)}`;
+        expenseDisplay.textContent = `₹${totalExpense.toFixed(2)}`;
+        balanceDisplay.textContent = `₹${balance.toFixed(2)}`;
+        highestIncomeDisplay.textContent = `₹${highestIncome.toFixed(2)}`;
+        highestExpenseDisplay.textContent = `₹${highestExpense.toFixed(2)}`;
+      }
+
+      function renderTransactions() {
+        const filteredTransactions = filterAndSortTransactions(transactions);
+        transactionList.innerHTML = "";
+        filteredTransactions.forEach((transaction, index) => {
+          const listItem = document.createElement("li");
+          listItem.className = "transaction-item";
+          listItem.innerHTML = `
+            <div>
+              <span class="category">${transaction.category}</span>
+              <span class="type">(${transaction.type})</span>
+              ${transaction.description ? `<span class="description"> - ${transaction.description}</span>` : ''}
+            </div>
+            <span class="${transaction.type === 'income' ? 'income' : 'expense'}">
+              ₹${transaction.amount.toFixed(2)}
+            </span>
+            <button class="delete-btn" data-index="${index}">
+              Delete
+            </button>
+          `;
+          transactionList.appendChild(listItem);
+        });
+
+        const deleteButtons = document.querySelectorAll(".delete-btn");
+        deleteButtons.forEach((button) => {
+          button.addEventListener("click", (event) => {
+            const indexToDelete = event.target.dataset.index;
+            transactions.splice(indexToDelete, 1);
+            calculateSummary();
+            renderTransactions();
+            showMessage("Transaction deleted successfully!", "warning");
+          });
+        });
+      }
+
+      function filterAndSortTransactions(transactions) {
+        let filteredTransactions = [...transactions];
+
+        const filterType = filterTypeSelect.value;
+        const filterCategory = filterCategoryInput.value.toLowerCase();
+        const sortBy = sortBySelect.value;
+
+        if (filterType) {
+          filteredTransactions = filteredTransactions.filter(
+            (transaction) => transaction.type === filterType
+          );
+        }
+
+        if (filterCategory) {
+          filteredTransactions = filteredTransactions.filter((transaction) =>
+            transaction.category.toLowerCase().includes(filterCategory)
+          );
+        }
+
+        if (sortBy === "amount") {
+          filteredTransactions.sort((a, b) => a.amount - b.amount);
+        } else if (sortBy === "date") {
+          filteredTransactions.sort(
+            (a, b) => new Date(a.date) - new Date(b.date)
+          );
+        }
+
+        return filteredTransactions;
+      }
+
+      transactionForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+
+        const type = document.getElementById("type").value;
+        const category = document.getElementById("category").value;
+        const description = document.getElementById("description").value;
+        const amount = parseFloat(document.getElementById("amount").value);
+        const date = new Date().toISOString();
+
+        if (amount <= 0) {
+          showMessage("Please enter a valid amount!", "error");
+          return;
+        }
+
+        transactions.push({ type, category, description, amount, date });
+        calculateSummary();
+        renderTransactions();
+        transactionForm.reset();
+        showMessage("Transaction added successfully!", "success");
+      });
+
+      filterTypeSelect.addEventListener("change", renderTransactions);
+      filterCategoryInput.addEventListener("input", renderTransactions);
+      sortBySelect.addEventListener("change", renderTransactions);
+
+      clearFilterButton.addEventListener("click", () => {
+        filterTypeSelect.value = "";
+        filterCategoryInput.value = "";
+        sortBySelect.value = "";
+        renderTransactions();
+      });
+
+      exportBtn.addEventListener("click", () => {
+        if (transactions.length === 0) {
+          showMessage("No transactions to export!", "error");
+          return;
+        }
+
+        let csvContent = "Type,Category,Description,Amount,Date\n";
+        transactions.forEach((transaction) => {
+          csvContent += `${transaction.type},${transaction.category},"${transaction.description}",${transaction.amount},${transaction.date}\n`;
+        });
+
+        const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.setAttribute("href", url);
+        link.setAttribute("download", "transactions.csv");
+        link.style.visibility = "hidden";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        showMessage("Transactions exported successfully!", "success");
+      });
+
+      calculateSummary();
+      renderTransactions();
+    </script>
+  </body>
+</html>

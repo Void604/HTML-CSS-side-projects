@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gaming Table Layouts</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #111827; /* Darker, more modern background */
+            color: #f9fafb; /* Off-white, slightly warmer text */
+            line-height: 1.7; /* Improved line height for readability */
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 50px auto; /* Increased margin for better spacing */
+            padding: 30px;
+            background-color: #1F2937; /* Slightly lighter container background */
+            border-radius: 12px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.8); /* More pronounced shadow */
+        }
+
+        h1 {
+            font-size: 3em; /* Larger heading */
+            text-align: center;
+            color: #6366F1; /* Vibrant purple */
+            margin-bottom: 30px;
+            letter-spacing: -0.02em;
+            text-shadow: 2px 2px 8px rgba(100, 116, 139, 0.6); /* Subtle text shadow */
+            font-family: 'Press Start 2P', monospace; /* Added font */
+            font-size: 2.2em;
+        }
+
+        h2 {
+            font-size: 2.2em; /* Larger subheading */
+            color: #A855F7; /* Lighter purple */
+            margin-top: 60px; /* Increased margin */
+            margin-bottom: 25px;
+            text-align: center;
+            border-bottom: 2px solid #D946EF; /* Added border */
+            padding-bottom: 10px;
+            letter-spacing: -0.02em;
+            font-family: 'Press Start 2P', monospace; /* Added font */
+             font-size: 1.5em;
+        }
+
+        table {
+            width: 100%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.7); /* Stronger shadow */
+            background-color: #242424;
+            border: 1px solid #4a5568;
+        }
+
+        th, td {
+            padding: 18px 15px; /* Slightly increased padding */
+            text-align: left;
+            border-bottom: 1px solid #4a5568; /* Darker border */
+        }
+
+        th {
+            background-color: #4338CA; /* Darker purple header */
+            color: #f5f5f5;
+            text-transform: uppercase;
+            letter-spacing: 0.05em; /* Added letter spacing */
+            font-weight: 600; /* Make header text bold */
+        }
+
+        /* Striped table */
+        .striped tr:nth-child(even) {
+            background-color: #2D3748; /* Darker striped background */
+        }
+
+        /* Hover effect */
+        .hoverable tr:hover {
+            background-color: #4A5568; /* Darker hover background */
+            transform: translateY(-2px); /* Slight vertical lift on hover */
+            transition: transform 0.2s ease; /* Smooth transition */
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            table {
+                width: 100%;
+            }
+            th, td {
+                padding: 12px 10px;
+            }
+            h1{
+                font-size: 2.5em;
+            }
+            h2{
+                font-size: 1.2em;
+            }
+        }
+
+        .game-title {
+            color: #f5f5f5; /* White */
+            font-weight: 500;
+            transition: color 0.3s ease; /* Smooth transition */
+            display: inline-block; /* Allows for underline */
+            position: relative;
+        }
+
+        .game-title:hover {
+            color: #6ee7b7; /* Teal on hover */
+        }
+
+        .game-title:hover::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -3px; /* Position the underline */
+            width: 100%;
+            height: 2px;
+            background-color: #a7f3d0; /* Light teal underline */
+            transform: scaleX(0);  /* Start with 0 width */
+            transform-origin: left;
+            transition: transform 0.3s ease; /* Animate the scale */
+        }
+
+        .game-title:hover::after {
+             transform: scaleX(1); /* Expand underline to full width on hover */
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Gaming Table Layouts</h1>
+
+        <h2>Popular Games</h2>
+        <table>
+            <tr>
+                <th>Game Title</th>
+                <th>Genre</th>
+                <th>Rating</th>
+            </tr>
+            <tr>
+                <td><span class="game-title">The Legend of Zelda: Breath of the Wild</span></td>
+                <td>Action-Adventure</td>
+                <td>10/10</td>
+            </tr>
+            <tr>
+                <td><span class="game-title">God of War</span></td>
+                <td>Action RPG</td>
+                <td>9.5/10</td>
+            </tr>
+            <tr>
+                <td><span class="game-title">Among Us</span></td>
+                <td>Social Deduction</td>
+                <td>8/10</td>
+            </tr>
+        </table>
+
+        <h2>Upcoming Releases</h2>
+        <table class="striped">
+            <tr>
+                <th>Game Title</th>
+                <th>Release Date</th>
+                <th>Platform</th>
+            </tr>
+            <tr>
+                <td><span class="game-title">Elden Ring</span></td>
+                <td>February 25, 2022</td>
+                <td>PC, PS4, PS5, Xbox One, Xbox Series X/S</td>
+            </tr>
+            <tr>
+                <td><span class="game-title">Horizon Forbidden West</span></td>
+                <td>February 18, 2022</td>
+                <td>PS4, PS5</td>
+            </tr>
+            <tr>
+                <td><span class="game-title">Starfield</span></td>
+                <td>November 11, 2022</td>
+                <td>PC, Xbox Series X/S</td>
+            </tr>
+        </table>
+
+        <h2>Top Rated Games</h2>
+        <table class="hoverable">
+            <tr>
+                <th>Game Title</th>
+                <th>Developer</th>
+                <th>Score</th>
+            </tr>
+            <tr>
+                <td><span class="game-title">The Witcher 3: Wild Hunt</span></td>
+                <td>CD Projekt Red</td>
+                <td>9.8/10</td>
+            </tr>
+            <tr>
+                <td><span class="game-title">Red Dead Redemption 2</span></td>
+                <td>Rockstar Games</td>
+                <td>9.7/10</td>
+            </tr>
+            <tr>
+                <td><span class="game-title">Dark Souls III</span></td>
+                <td>FromSoftware</td>
+                <td>9.5/10</td>
+            </tr>
+        </table>
+    </div>
+
+</body>
+</html>

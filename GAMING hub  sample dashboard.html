@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gaming Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #121212;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            line-height: 1.7;
+        }
+
+        header {
+            text-align: center;
+            padding: 30px;
+            background: linear-gradient(to right, #6b7280, #374151);
+            border-bottom: 2px solid #4b5563;
+            animation: fadeInHeader 1s ease forwards;
+            opacity: 0;
+        }
+        @keyframes fadeInHeader {
+          from {
+            opacity: 0;
+          }
+          to {
+            opacity: 1;
+          }
+        }
+
+        header h1 {
+            font-size: 3em;
+            color: #ffdb58;
+            font-family: 'Press Start 2P', monospace;
+            text-shadow: 2px 2px 4px #000;
+            letter-spacing: -0.05em;
+            animation: pulse 2s infinite alternate;
+        }
+        @keyframes pulse {
+          from {
+            transform: scale(1);
+          }
+          to {
+            transform: scale(1.04);
+          }
+        }
+
+        header p {
+            font-size: 1.1em;
+            color: #d1d5db;
+            margin-top: 15px;
+            animation: slideIn 1s ease-in-out forwards;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        @keyframes slideIn {
+          from{
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        nav {
+            background-color: #1f2937;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+            margin-bottom: 20px;
+            animation: slideInLeft 1s ease-in-out forwards;
+            opacity: 0;
+            transform: translateX(-20px);
+        }
+        @keyframes slideInLeft {
+            from {
+              opacity: 0;
+              transform: translateX(-20px);
+            }
+            to {
+              opacity: 1;
+              transform: translateX(0);
+            }
+        }
+
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        nav ul li {
+            margin: 0 20px;
+        }
+
+        nav ul li a {
+            color: #e5e7eb;
+            text-decoration: none;
+            font-size: 1.2em;
+            font-weight: 500;
+            text-transform: uppercase;
+            transition: color 0.3s ease, text-shadow 0.3s ease;
+            letter-spacing: 0.05em;
+        }
+
+        nav ul li a:hover {
+            color: #ff6700;
+            text-shadow: 0 0 8px rgba(255, 103, 0, 0.8);
+        }
+
+        nav ul li a.active {
+            color: #ff6700;
+            font-weight: 700;
+            text-shadow: 0 0 8px rgba(255, 103, 0, 0.8);
+            border-bottom: 2px solid #ff6700;
+            padding-bottom: 5px;
+        }
+
+        section {
+            padding: 30px;
+            text-align: center;
+            border-bottom: 1px solid #374151;
+            animation: fadeIn 1s ease forwards;
+            opacity: 0;
+        }
+        @keyframes fadeIn {
+          from {
+            opacity: 0;
+          }
+          to {
+            opacity: 1;
+          }
+        }
+
+        section h2 {
+            font-size: 2.2em;
+            color: #ffdb58;
+            margin-bottom: 20px;
+            font-family: 'Press Start 2P', monospace;
+            letter-spacing: -0.02em;
+            text-shadow: 1px 1px 2px #000;
+            transition: transform 0.3s ease;
+        }
+        section h2:hover {
+          transform: scale(1.06);
+        }
+
+        section p {
+            font-size: 1.1em;
+            color: #d1d5db;
+        }
+
+        section ul {
+            list-style: none;
+            padding: 0;
+            margin: 20px auto;
+            display: table;
+            width: fit-content;
+        }
+
+        section ul li {
+            margin: 10px 0;
+        }
+
+        section ul li a {
+            color: #6ee7b7;
+            text-decoration: none;
+            font-size: 1.2em;
+            transition: color 0.3s ease, transform 0.3s ease;
+            padding: 8px 16px;
+            border-radius: 5px;
+            background-color: #1e293b;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            border: 1px solid #334155;
+            position: relative;
+            overflow: hidden;
+        }
+
+        section ul li a:hover {
+            color: #fff;
+            background-color: #ff6700;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+        }
+        section ul li a:hover::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                45deg,
+                transparent,
+                #ff6700,
+                transparent
+            );
+            animation: slide 2s linear infinite;
+        }
+        @keyframes slide {
+            0% {
+                left: -100%;
+            }
+            50%,
+            100% {
+                left: 100%;
+            }
+        }
+
+        .external-links {
+            margin-top: 40px;
+            text-align: center;
+        }
+
+        .external-links h2 {
+            font-size: 2.2em;
+            color: #ffdb58;
+            margin-bottom: 20px;
+            font-family: 'Press Start 2P', monospace;
+            letter-spacing: -0.02em;
+            text-shadow: 1px 1px 2px #000;
+            animation: rotate 2s linear infinite;
+        }
+        @keyframes rotate {
+          from {
+            transform: rotate(0deg);
+          }
+          to {
+            transform: rotate(360deg);
+          }
+        }
+
+        .external-links ul {
+            list-style: none;
+            padding: 0;
+            margin: 20px auto;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .external-links ul li a {
+            color: #86efac;
+            text-decoration: none;
+            font-size: 1.1em;
+            transition: color 0.3s ease, transform 0.3s ease;
+            padding: 10px 20px;
+            border-radius: 5px;
+            background-color: #1e293b;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            border: 1px solid #334155;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .external-links ul li a:hover {
+            color: #fff;
+            background-color: #a855f7;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+        }
+        .external-links ul li a:hover::before{
+          content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                120deg,
+                transparent,
+                #a855f7,
+                transparent
+            );
+            animation: slide 3s linear infinite;
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px;
+            background-color: #1f2937;
+            color: #d1d5db;
+            margin-top: 40px;
+            border-top: 2px solid #4b5563;
+            animation: fadeIn 1s ease forwards;
+            opacity: 0;
+        }
+
+        /* Added styling for active page */
+        body.classList.add('home'); /* Or 'games', 'news', 'about' as needed */
+        nav ul li a[href="#home"] {
+            color: #ff6700;
+            font-weight: 700;
+            text-shadow: 0 0 8px rgba(255, 103, 0, 0.8);
+            border-bottom: 2px solid #ff6700;
+            padding-bottom: 5px;
+        }
+
+    </style>
+</head>
+<body class="home">
+
+    <header>
+        <h1>Welcome to the Gaming Hub!</h1>
+        <p>Your one-stop destination for all things gaming.</p>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#games">Games</a></li>
+            <li><a href="#news">News</a></li>
+            <li><a href="#about">About Us</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <section id="home">
+            <h2>Home</h2>
+            <p>Discover the latest trends and updates in the gaming world!</p>
+            <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit.  Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+            </p>
+             <div class="video-container" style="margin-top: 20px;">
+              <iframe width="560" height="315" src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&mute=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+             </div>
+        </section>
+
+        <section id="games">
+            <h2>Popular Games</h2>
+            <ul>
+                <li><a href="#game1">Game 1</a></li>
+                <li><a href="#game2">Game 2</a></li>
+                <li><a href="#game3">Game 3</a></li>
+                <li><a href="#game4">Game 4</a></li>
+            </ul>
+        </section>
+
+        <section id="news">
+            <h2>Latest News</h2>
+            <p>Stay updated with the latest gaming news and releases.</p>
+            <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit.  Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+            </p>
+            <div id="news-container" style="margin-top: 20px; text-align: left;">
+                  <h3>News Title 1</h3>
+                  <p>News content 1...</p>
+                  <h3>News Title 2</h3>
+                  <p>News content 2...</p>
+            </div>
+        </section>
+
+        <section id="about">
+            <h2>About Us</h2>
+            <p>We are passionate gamers dedicated to bringing you the best gaming content.</p>
+            <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit.  Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+            </p>
+             <div class="image-container" style="margin-top: 20px;">
+                <img src="https://via.placeholder.com/400x200" alt="Gaming Hub Team" style="border-radius: 8px; max-width: 100%;">
+             </div>
+        </section>
+    </main>
+
+    <div class="external-links">
+        <h2>External Links</h2>
+        <ul>
+            <li><a href="https://www.ign.com" target="_blank">IGN</a></li>
+            <li><a href="https://www.gamespot.com" target="_blank">GameSpot</a></li>
+            <li><a href="https://www.polygon.com" target="_blank">Polygon</a></li>
+            <li><a href="https://www.rockpapershotgun.com" target="_blank">Rock Paper Shotgun</a></li>
+            <li><a href="https://www.pcgamer.com/" target="_blank">PC Gamer</a></li>
+            <li><a href="https://kotaku.com/" target="_blank">Kotaku</a></li>
+        </ul>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Gaming Hub. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Get current page
+        const currentPage = document.body.classList.item(0);
+
+        // Add active class to nav link
+        const navLinks = document.querySelectorAll('nav ul li a');
+        navLinks.forEach(link => {
+            if (link.getAttribute('href').slice(1) === currentPage) {
+                link.classList.add('active');
+            }
+        });
+    </script>
+</body>
+</html>
