@@ -15,7 +15,8 @@ The repository includes the following projects:
 * `gaming_hub.html`: A project simulating a gaming hub website.
 * `registration_page.html` : a simnple registration page
 * `SOLAR-SYSTEM.html`: a 3D solar system all moving and orbiting and such
-* 
+
+  
 ## Disclaimer
 
 These projects are side projects and may not be fully polished or optimized. They are intended for demonstration and learning purposes.
