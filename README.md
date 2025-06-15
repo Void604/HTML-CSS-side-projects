@@ -31,3 +31,9 @@ These are side projects and may not be fully optimized. They’re intended for e
 ## 🌱 Still Growing
 
 I'm always open to feedback and contributions. Feel free to fork, star ⭐, or suggest improvements!
+
+## 👤 Author
+
+* Aryan Kashyap
+* aryankashyap7899@gmail.com
+* [My Github Profile](https://github.com/Void604)
